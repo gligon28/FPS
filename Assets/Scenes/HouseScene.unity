@@ -20157,7 +20157,7 @@ Transform:
   m_GameObject: {fileID: 292864960}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22745,9 +22745,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7029948723529949830, guid: 042bf52c02c264d5aaa41232633040c5, type: 3}
+      propertyPath: m_Name
+      value: upstairs_walls
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 042bf52c02c264d5aaa41232633040c5, type: 3}
       propertyPath: m_Name
-      value: floorplan1
+      value: upstairs_walls
       objectReference: {fileID: 0}
     - target: {fileID: 4876933053422263863, guid: 042bf52c02c264d5aaa41232633040c5, type: 3}
       propertyPath: m_Mesh
@@ -22856,7 +22860,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 776b624935d354ca8b14b241c8317536, type: 3}
       propertyPath: m_Name
-      value: floorplan1_FLOOR
+      value: upstairs_floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5148817236446094103, guid: 776b624935d354ca8b14b241c8317536, type: 3}
+      propertyPath: m_Name
+      value: upstairs_floor
       objectReference: {fileID: 0}
     - target: {fileID: 5148817236446094103, guid: 776b624935d354ca8b14b241c8317536, type: 3}
       propertyPath: m_Layer
@@ -23163,6 +23171,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6338490633473554750, guid: 4022ecbff0a164baf9c195dc86bee269, type: 3}
+      propertyPath: m_Name
+      value: downstairs_walls
+      objectReference: {fileID: 0}
     - target: {fileID: -5393644301868872635, guid: 4022ecbff0a164baf9c195dc86bee269, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5
@@ -23201,7 +23213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4022ecbff0a164baf9c195dc86bee269, type: 3}
       propertyPath: m_Name
-      value: floorplan2
+      value: downstairs_walls
       objectReference: {fileID: 0}
     - target: {fileID: 1607723858757552527, guid: 4022ecbff0a164baf9c195dc86bee269, type: 3}
       propertyPath: m_Mesh
@@ -25777,7 +25789,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 776b624935d354ca8b14b241c8317536, type: 3}
       propertyPath: m_Name
-      value: floorplan1_FLOOR (1)
+      value: downstairs_floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5148817236446094103, guid: 776b624935d354ca8b14b241c8317536, type: 3}
+      propertyPath: m_Name
+      value: downstairs_floor
       objectReference: {fileID: 0}
     - target: {fileID: 5148817236446094103, guid: 776b624935d354ca8b14b241c8317536, type: 3}
       propertyPath: m_Layer
@@ -25961,7 +25977,7 @@ Transform:
   m_GameObject: {fileID: 1782761826}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 9.76, y: 9.027, z: 19.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26009,17 +26025,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84974a0a700c2f043a370014b21aaacc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
+  walkSpeed: 7
+  sprintSpeed: 10
   groundDrag: 5
   jumpForce: 10
   jumpCooldown: 0.25
   airMultiplier: 0.4
+  crouchSpeed: 3.5
+  crouchYScale: 0.5
   jumpKey: 32
+  sprintKey: 304
+  crouchKey: 306
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   orientation: {fileID: 1652186415}
+  state: 0
 --- !u!43 &1910089942
 Mesh:
   m_ObjectHideFlags: 0
@@ -45280,9 +45302,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8391222552659086748, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
+      propertyPath: m_Name
+      value: Bed
+      objectReference: {fileID: 0}
+    - target: {fileID: -7640558969779515294, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
+      propertyPath: m_Name
+      value: Wardrobe
+      objectReference: {fileID: 0}
+    - target: {fileID: -7146521406498821007, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
+      propertyPath: m_Name
+      value: Nightstand
+      objectReference: {fileID: 0}
+    - target: {fileID: -2045257923548263128, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
+      propertyPath: m_Name
+      value: Pillow Fort 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1599826595754709761, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
+      propertyPath: m_Name
+      value: Coffee Table
+      objectReference: {fileID: 0}
+    - target: {fileID: -516098083770646512, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
+      propertyPath: m_Name
+      value: Desk
+      objectReference: {fileID: 0}
+    - target: {fileID: -466329591000292508, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
+      propertyPath: m_Name
+      value: TV Stand
+      objectReference: {fileID: 0}
+    - target: {fileID: -208595431880416365, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
+      propertyPath: m_Name
+      value: Couch
+      objectReference: {fileID: 0}
+    - target: {fileID: 281855664364225751, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
+      propertyPath: m_Name
+      value: Pillow Fort 2
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
       propertyPath: m_Name
-      value: furniturel1
+      value: furniture_upstairs
+      objectReference: {fileID: 0}
+    - target: {fileID: 8416272007918961125, guid: 27783c2fd4ddf439386d2ce0bdac0801, type: 3}
+      propertyPath: m_Name
+      value: Desk Chair
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
