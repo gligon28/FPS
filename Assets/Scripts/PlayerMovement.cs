@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
     /*This basic movement code comes from "FIRST PERSON MOVEMENT in 10 MINUTES - Unity Tutorial" by "Dave / GameDevelopment" on YouTube.
@@ -13,17 +14,26 @@ public class PlayerMovement : MonoBehaviour
 {
     //Headers are a great way to keep your Inspector organized if you're going to have lots of public, exposed variables
     [Header("Movement")]
-    public float moveSpeed; //Public so we'll be able to customize this in the inspector
-
+    private float moveSpeed; //Public so we'll be able to customize this in the inspector
+    public float walkSpeed;
+    public float sprintSpeed;
     public float groundDrag; //essentially how much friction we'll have on the floor.
 
+    [Header("Jumping")]
     public float jumpForce; //How much force we exert on the rigidbody when we jump. Basically ike jump speed/height 
     public float jumpCooldown; //How long until we can jump again
     public float airMultiplier; //kind of like our air resistance
     bool readyToJump; //True if we can jump, false if not
 
+    [Header("Crouching")]
+    public float crouchSpeed;
+    public float crouchYScale;
+    private float startYScale;
+
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode sprintKey = KeyCode.LeftShift;
+    public KeyCode crouchKey = KeyCode.LeftControl;
 
     [Header("Ground Check")] //We're gonna check when we're touching the ground for a couple of reasons like knowing when we can jump and when to apply drag
     public float playerHeight; //so we can tell where the ground is relative to the player's center
@@ -41,7 +51,14 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody rb; //This will hold a reference to our player's rigidbody. We'll assign it in the code so we don't need it to be public
 
-
+    public MovementState state;
+    public enum MovementState
+    {
+        walking,
+        sprinting,
+        crouching,
+        air
+    }
 
     void Start() // Start is called before the first frame update
     {
@@ -49,6 +66,8 @@ public class PlayerMovement : MonoBehaviour
         rb. freezeRotation = true; //we don't want it rotating on its own.
 
         readyToJump = true; //makes us able to jump when the game start
+
+        startYScale = transform.localScale.y;
     }
 
 
@@ -63,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
     
         SpeedControl(); //call our function to cap our max movement speed
 
+        StateHandler();
 
         //handle drag
         if(grounded)
@@ -97,8 +117,50 @@ public class PlayerMovement : MonoBehaviour
 
             Invoke(nameof(ResetJump), jumpCooldown); //really cool method that lets us call our custom ResetJump method after waiting the length of time of jumpCooldown
         }
+
+        // start crouch
+        if(Input.GetKeyDown(crouchKey))
+        {
+            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+        }
+
+        // stop crouch
+        if(Input.GetKeyUp(crouchKey))
+        {
+            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+        }
     }
 
+    private void StateHandler()
+    {
+        // Crouching
+        if (Input.GetKey(crouchKey))
+        {
+            state = MovementState.crouching;
+            moveSpeed = crouchSpeed;
+        }
+
+        // Sprinting
+        if(grounded && Input.GetKey(sprintKey))
+        {
+            state = MovementState.sprinting;
+            moveSpeed = sprintSpeed;
+        }
+
+        // Walking
+        else if (grounded)
+        {
+            state = MovementState.walking;
+            moveSpeed = walkSpeed;
+        }
+        
+        // Air
+        else
+        {
+            state = MovementState.air;
+        }
+    }
 
     private void MovePlayer()
     {
