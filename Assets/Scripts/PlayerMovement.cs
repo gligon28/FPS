@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
     /*This basic movement code comes from "FIRST PERSON MOVEMENT in 10 MINUTES - Unity Tutorial" by "Dave / GameDevelopment" on YouTube.
     I've totally over-commented it so that y'all can understand all the moving parts here, but as you work with it, if the comments are distracting, just delete them!
@@ -13,6 +14,12 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     //Headers are a great way to keep your Inspector organized if you're going to have lots of public, exposed variables
+
+    public float playerHealth;
+
+    // Add a reference to the UI text element
+    public TextMeshProUGUI healthText;
+
     [Header("Movement")]
     private float moveSpeed; //Public so we'll be able to customize this in the inspector
     public float walkSpeed;
@@ -40,6 +47,11 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround; //we'll apply this layer to any "Ground" objects in our scene
     bool grounded; //This will be true if we're touching the ground, false if we're not
 
+    [Header("Slope Handling")]
+    public float maxSlopeAngle; //the maximum angle at which we can walk
+    private RaycastHit slopeHit;
+    private bool exitingSlope;
+
 
     public Transform orientation; //public because we'll drag and drop our Orientation object in here to capture its transform data (location, rotation, and scale)
 
@@ -62,8 +74,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start() // Start is called before the first frame update
     {
+        transform.rotation = Quaternion.Euler(0, 180, 0);
         rb = GetComponent<Rigidbody>(); //tada now "rb" is a reference to our RigidBody component
-        rb. freezeRotation = true; //we don't want it rotating on its own.
+        rb.freezeRotation = true; //we don't want it rotating on its own.
 
         readyToJump = true; //makes us able to jump when the game start
 
@@ -79,9 +92,7 @@ public class PlayerMovement : MonoBehaviour
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
         MyInput(); //Every frame we're gonna collect our inputs using a custom method of our own creation
-    
         SpeedControl(); //call our function to cap our max movement speed
-
         StateHandler();
 
         //handle drag
@@ -92,6 +103,12 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             rb.linearDamping = 0;
+        }
+
+        // Update the health display UI every frame
+        if (healthText != null)
+        {
+            healthText.text = "Health: " + playerHealth.ToString("F0");
         }
     }
 
@@ -168,6 +185,16 @@ public class PlayerMovement : MonoBehaviour
         //The direction we move = Y axis direction (forward) * Forward/Backwards input + X axis direction (right) * Left/Right input
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
+        // on slope
+        if (onSlope() && !exitingSlope)
+        {
+            rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 20f, ForceMode.Force);
+
+            if (rb.linearVelocity.y > 0)
+            {
+                rb.AddForce(Vector3.down * 80f, ForceMode.Force);
+            }
+        }
         //now that we have our direction, we add it as a force to our rigidbody
         //normalizing a vector sets its magnitude to 1, so we won't have bigger or smaller vectors, just directions. Force mode force is like continuously pushing on something, rather than one force one time
         if (grounded) //we have certain movement rules for on the ground, and different ones for in the air
@@ -179,6 +206,10 @@ public class PlayerMovement : MonoBehaviour
             //we just multiply in our air multiplier so we can't move as much in the air as we can on the ground
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
+
+        // turn off gravity when on slope
+        rb.useGravity = !onSlope();
+
     }
 
     //Without this, the player's max speed would be greater than his move speed. We're just gonna put a cap on his max speed
@@ -198,6 +229,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        exitingSlope = true;
         //reset y velocity to 0 just in case
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
@@ -208,5 +240,21 @@ public class PlayerMovement : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true; //let us be able to jump again
+        exitingSlope = false;
+    }
+
+    private bool onSlope()
+    {
+        if(Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
+        {
+            float angle = Vector3.Angle(slopeHit.normal, Vector3.up);
+            return angle < maxSlopeAngle && angle != 0;
+        }
+        return false;
+    }
+
+    private Vector3 GetSlopeMoveDirection()
+    {
+        return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
 }
