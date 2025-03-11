@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 36c44b31e2188f441a602c84f4fa8b7e
-DefaultImporter:
+guid: c071178be0f88fd4d997db9c9910b2e5
+PrefabImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
@@ -10,5 +10,5 @@ AssetOrigin:
   productId: 155339
   packageName: Secret Radio Room - The Swamp House
   packageVersion: 3.0
-  assetPath: Assets/SwampHouse/swamphouse.unity
+  assetPath: Assets/SwampHouse/Prefabs/Radio_leftover.prefab
   uploadId: 432706

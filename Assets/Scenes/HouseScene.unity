@@ -323,10 +323,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy in Hallway
       objectReference: {fileID: 0}
-    - target: {fileID: 1300337881518272852, guid: eee04c601a5444f788e08a0cafcfec6b, type: 3}
-      propertyPath: moveSpeed
-      value: 5.35
-      objectReference: {fileID: 0}
     - target: {fileID: 6076642991304790254, guid: eee04c601a5444f788e08a0cafcfec6b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.42122
@@ -22117,16 +22113,12 @@ PrefabInstance:
       value: 94
       objectReference: {fileID: 0}
     - target: {fileID: 6076642991304790254, guid: eee04c601a5444f788e08a0cafcfec6b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.45706
-      objectReference: {fileID: 0}
-    - target: {fileID: 6076642991304790254, guid: eee04c601a5444f788e08a0cafcfec6b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.87
       objectReference: {fileID: 0}
     - target: {fileID: 6076642991304790254, guid: eee04c601a5444f788e08a0cafcfec6b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.013
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 6076642991304790254, guid: eee04c601a5444f788e08a0cafcfec6b, type: 3}
       propertyPath: m_LocalPosition.z
