@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: 7dfeec3f9ff33f948be1e3a2657c1866
-AssetOrigin:
-  serializedVersion: 1
-  productId: 155339
-  packageName: Secret Radio Room - The Swamp House
-  packageVersion: 3.0
-  assetPath: Assets/SwampHouse/Models/Radio/Headphone/Headphone/Sponge.tif
-  uploadId: 432706
+guid: 8443a6f765a4f4754a856a3ac7bb7f78
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -14,7 +7,7 @@ TextureImporter:
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
-    sRGBTexture: 0
+    sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -61,7 +54,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 1
+  textureType: 0
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -72,7 +65,7 @@ TextureImporter:
   ignorePngGamma: 0
   applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
